@@ -8,18 +8,14 @@
 #' @param max.levels [Optional | integer | Default 10] The maximum levels allowed for a categorical feature to create one hot encoded features
 #' @param min.percent [Optional | numeric | Default 0.025] The minimum proportion a categorical level is allowed to have before it is flagged as a low proportional level
 #' @param seed [Optional | integer| Default 1991] The random number seed for reproducable results
-#' @return
+#' @return List of data frames containing engineered mapping features
 #' @export
 #' @examples
 #' res <- map.categorical.encoding(data = iris, x = "Species", y = "Sepal.Length")
 #' @author 
 #' Xander Horn
-map.categorical.encoding <- function(data,
-                                     x,
-                                     y = NULL,
-                                     max.levels = 10,
-                                     min.percent = 0.025,
-                                     seed = 1991){
+map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.percent = 0.025, seed = 1991,
+                                     progress = TRUE){
   
   library(sqldf)
   
@@ -39,6 +35,11 @@ map.categorical.encoding <- function(data,
   }
   
   mappings <- list()
+  
+  if(progress == TRUE){
+    pb <- txtProgressBar(min = 0, max = length(x), style = 3)
+  }
+  
   for(i in 1:length(x)){
     
     if(is.null(y) == FALSE){
@@ -69,10 +70,14 @@ map.categorical.encoding <- function(data,
       }
     }
     
-    temp <- temp[,setdiff(names(temp), c("sum","count","noise.target","weighted.target","proportional.encode"))]
+    temp <- temp[,setdiff(names(temp), c("sum","count","noise.target","weighted.target"))]
     names(temp) <- paste0(x,".",names(temp))
     names(temp)[1] <- x
     mappings[[i]] <- temp
+    
+    if(progress == TRUE){
+      setTxtProgressBar(pb, i)
+    }
   }
   names(mappings) <- x
   

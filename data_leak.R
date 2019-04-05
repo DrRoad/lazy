@@ -1,4 +1,22 @@
-data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 1991){
+#' Data leakage detection
+#' 
+#' Fits a decision tree model to determine which features have data leakage
+#'
+#' @param train [Required | data.frame] Training data
+#' @param test [Required | data.frame] Testing data
+#' @param id.feats [Optional | character] Names of ID features
+#' @param sample.size [Optional | numeric] Percentage to down sample data for decreased computation time
+#' @param seed [Optional | integer] Random number seed for reproducable results
+#' @param progress [Optional | logical] Display a progress bar 
+#' @return Data frame containing AUC per feature indicating data leakage
+#' @export
+#' @examples
+#' train <- iris[1:65,]
+#' test <- iris[66:nrow(iris),]
+#' res <- data.leak(train = train, test = test)
+#' @author 
+#' Xander Horn
+data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 1991, progress = TRUE){
   
   if(missing(train)){
     stop("Provide training set")
@@ -34,7 +52,10 @@ data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 19
   out <- data.frame(feature = setdiff(names(combined), "data.leak.target"),
                     auc = NA)
   
-  pb <- txtProgressBar(min = 0, max = nrow(out), style = 3)
+  if(progress == TRUE){
+    pb <- txtProgressBar(min = 0, max = nrow(out), style = 3)
+  }
+  
   for(i in 1:nrow(out)){
     form <- as.formula(paste0("data.leak.target ~ ", out[i,"feature"]))
     tree <- rpart(formula = form,
@@ -44,7 +65,11 @@ data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 19
     tree <- prune(tree, cp = tree_min)
     out[i,"auc"] <- pROC::auc(response = combined$data.leak.target,
                               predictor = predict(tree, combined))
-    setTxtProgressBar(pb, i)
+    
+    if(progress == TRUE){
+      setTxtProgressBar(pb, i)
+    }
+    
   }
   out$auc <- round(out$auc, 3)
   out$leak <- ifelse(out$auc <= 0.5, "no leak",
