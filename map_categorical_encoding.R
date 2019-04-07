@@ -14,7 +14,7 @@
 #' res <- map.categorical.encoding(data = iris, x = "Species", y = "Sepal.Length")
 #' @author 
 #' Xander Horn
-map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.percent = 0.025, seed = 1991,
+map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.percent = 0.025, seed = 1234,
                                      progress = TRUE){
   
   library(sqldf)
@@ -81,5 +81,6 @@ map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.per
   }
   names(mappings) <- x
   
+  cat(" \n")
   return(mappings)
 }

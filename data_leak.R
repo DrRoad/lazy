@@ -16,7 +16,7 @@
 #' res <- data.leak(train = train, test = test)
 #' @author 
 #' Xander Horn
-data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 1991, progress = TRUE){
+data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 1234, progress = TRUE){
   
   if(missing(train)){
     stop("Provide training set")
@@ -75,5 +75,7 @@ data.leak <- function(train, test, id.feats = NULL, sample.size = 0.3, seed = 19
   out$leak <- ifelse(out$auc <= 0.5, "no leak",
                      ifelse(out$auc > 0.5 & out$auc <= 0.65, "weak leak",
                             ifelse(out$auc > 0.65 & out$auc <= 0.8, "moderate leak", "strong leak")))
+  
+  cat(" \n")
   return(out)
 }
