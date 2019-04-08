@@ -16,44 +16,44 @@
 #' Xander Horn
 map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.percent = 0.025, seed = 1234,
                                      progress = TRUE){
-
+  
   library(sqldf)
-
+  
   if(missing(data)){
     stop("No data provided to function in arg 'data'")
   }
-
+  
   if(missing(x)){
     stop("No categorical features specified in arg 'x'")
   }
-
+  
   set.seed(seed)
   data <- as.data.frame(data)
-
+  
   if(class(data[,y]) %in% c("factor","character")){
     data[,y] <- as.numeric(as.factor(data[,y]))
   }
-
+  
   mappings <- list()
-
+  
   if(progress == TRUE){
     pb <- txtProgressBar(min = 0, max = length(x), style = 3)
   }
-
+  
   for(i in 1:length(x)){
-
+    
     if(is.null(y) == FALSE){
       query <- paste0("select `", x[i], "` as level, count(`",x[i],"`) as count, sum(`",y,"`) as sum from data group by ",x[i])
     } else {
       query <- paste0("select `", x[i], "` as level, count(`",x[i],"`) as count from data group by ",x[i])
     }
-
+    
     temp <- sqldf::sqldf(query)
     temp$proportional.encode <- temp$count / sum(temp$count)
     temp <- temp[order(temp[,"proportional.encode"]),]
     temp$ordinal.encode <- (cumsum(temp$proportional.encode) - 0.5 * temp$proportional.encode) / sum(temp$proportional.encode)
     temp$low.prop <- ifelse(temp$count / sum(temp$count) < min.percent, 1, 0)
-
+    
     if(is.null(y) == FALSE){
       glb <- sum(temp$sum) / sum(temp$count)
       lambda <- 1/(1 + exp((-1) * (temp$count - 20)/10))
@@ -62,25 +62,25 @@ map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.per
       temp$noise.target <- (temp$sum / temp$count) + (noise * 2 * 0.01 - 0.01)
       temp$mean.target <- (temp$weighted.target +temp$noise.target) / 2
     }
-
+    
     if(nrow(temp) <= max.levels){
       for(j in 1:nrow(temp)){
         val <- temp[j,1]
         temp[,paste0("onehot.",temp[j,1])] <- ifelse(temp[,1] == val, 1, 0)
       }
     }
-
+    
     temp <- temp[,setdiff(names(temp), c("sum","count","noise.target","weighted.target"))]
-    names(temp) <- paste0(x,".",names(temp))
-    names(temp)[1] <- x
+    names(temp) <- paste0(x[i],".",names(temp))
+    names(temp)[1] <- x[i]
     mappings[[i]] <- temp
-
+    
     if(progress == TRUE){
       setTxtProgressBar(pb, i)
     }
   }
   names(mappings) <- x
-
+  
   cat(" \n")
   return(mappings)
 }
