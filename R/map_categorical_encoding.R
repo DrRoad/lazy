@@ -3,11 +3,13 @@
 #' Creates a list of mapping tables, one for each categorical feature in the dataset. These tables include engineered features which can then be joined back to the original dataset. Feature engineering techniques include: one hot encoding, ordinal proporitonal encoding, weighted noise target mean encoding given parameter y is provided.
 #'
 #' @param data [Required | data.frame] Dataset containing categorical features
-#' @param x [Required | character] A vector of categorical feature name(s) present in the dataset
+#' @param x [Required | character] A vector of categorical feature names present in the dataset
 #' @param y [Optional | character | Default NULL] The name of the target feature contained in the dataset. If no target is provided mean target encoding will not be calculated.
 #' @param max.levels [Optional | integer | Default 10] The maximum levels allowed for a categorical feature to create one hot encoded features
 #' @param min.percent [Optional | numeric | Default 0.025] The minimum proportion a categorical level is allowed to have before it is flagged as a low proportional level
+#' @param progress [Optional | logical] Display a progress bar
 #' @param seed [Optional | integer| Default 1991] The random number seed for reproducable results
+#'
 #' @return List of data frames containing engineered mapping features
 #' @export
 #' @examples
