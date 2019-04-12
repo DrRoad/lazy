@@ -43,7 +43,7 @@ map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.per
   for(i in 1:length(x)){
 
     if(is.null(y) == FALSE){
-      query <- paste0("select `", x[i], "` as level, count(`",x[i],"`) as count, sum(`",y,"`) as sum, count(`",y,"`) as target_count from data group by ",x[i])
+      query <- paste0("select `", x[i], "` as level, count(`",x[i],"`) as count, sum(`",y,"`) as sum from data group by ",x[i])
     } else {
       query <- paste0("select `", x[i], "` as level, count(`",x[i],"`) as count from data group by ",x[i])
     }
