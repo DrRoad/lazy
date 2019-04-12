@@ -57,9 +57,3 @@ numeric.transformers <- function(data, x, progress = TRUE){
 
 return(temp)
 }
-
-
-
-
-
-
