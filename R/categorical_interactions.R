@@ -26,19 +26,24 @@ categorical.interactions <- function(data, x, n.interactions = 2,progress = TRUE
     stop("Require more than one feature to compute interactions")
   }
 
-  comb <- as.data.frame(t(combn(x, n.interactions)),
-                        stringsAsFactors = FALSE)
+  n <- seq(from = 2, to = n.interactions, by = 1)
+  comb <- list()
+  for(j in 1:length(n)){
+    comb[[j]] <- as.data.frame(t(combn(x, n[j])),
+                            stringsAsFactors = FALSE)
+  }
 
   if(progress == TRUE){
-    pb <- txtProgressBar(min = 0, max = nrow(comb), style = 3)
+    pb <- txtProgressBar(min = 0, max = length(comb), style = 3)
   }
 
   temp <- as.data.frame(data[, x])
 
-  for(i in 1:nrow(comb)){
-
-    temp[,paste0("interaction.",paste0(comb[i,], collapse = "."))] <- do.call(paste, as.data.frame(temp[,paste0(comb[i,])], stringsAsFactors=FALSE))
-
+  for(i in 1:length(comb)){
+    c <- comb[[i]]
+    for(j in 1:nrow(c)){
+      temp[,paste0("interaction.",paste0(c[j,], collapse = "."))] <- do.call(paste, as.data.frame(temp[,paste0(c[j,])], stringsAsFactors=FALSE))
+    }
     if(progress == TRUE){
       setTxtProgressBar(pb, i)
     }
