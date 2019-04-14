@@ -37,5 +37,6 @@ max.scaler <- function(data, x, progress = TRUE){
       setTxtProgressBar(pb, i)
     }
   }
+  cat(" \n")
   return(data)
 }

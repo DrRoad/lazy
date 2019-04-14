@@ -50,5 +50,6 @@ categorical.interactions <- function(data, x, n.interactions = 2,progress = TRUE
   }
 
   temp <- temp[,setdiff(names(temp), x)]
+  cat(" \n")
   return(temp)
 }

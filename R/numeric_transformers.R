@@ -54,6 +54,6 @@ numeric.transformers <- function(data, x, progress = TRUE){
   }
 
   temp <- temp[,setdiff(names(temp), x)]
-
+  cat(" \n")
 return(temp)
 }
