@@ -3,7 +3,7 @@
 #' Applies different transformations to numeric features such as sqrt, log and boxcox transforms.
 #'
 #' @param data [Required | data.frame] Dataset containing numeric features
-#' @param x [Required | character] A vector of categorical feature names present in the dataset
+#' @param x [Required | character] A vector of numeric feature names present in the dataset
 #' @param progress [Optional | logical] Display a progress bar
 #' @return Data frame containing transformed features
 #' @export
