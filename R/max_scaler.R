@@ -26,7 +26,12 @@ max.scaler <- function(data, x, progress = TRUE){
   }
 
   for(i in 1:length(x)){
-    data[, x[i]] <- data[, x[i]] / (max(data[, x[i]]) + 1)
+    if(max(data[, x[i]]) == -1){
+      data[, x[i]] <- data[, x[i]] / max(data[, x[i]])
+    } else {
+      data[, x[i]] <- data[, x[i]] / (max(data[, x[i]]) + 1)
+    }
+
 
     if(progress == TRUE){
       setTxtProgressBar(pb, i)
