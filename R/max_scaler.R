@@ -8,7 +8,7 @@
 #' @return Data frame with scaled features
 #' @export
 #' @examples
-#'
+#' res <- max.scaler(data = iris, x = names(iris)[1:4])
 #' @author
 #' Xander Horn
 max.scaler <- function(data, x, progress = TRUE){
