@@ -33,7 +33,7 @@ map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.per
   data <- as.data.frame(data)
 
   if(class(data[,y]) %in% c("factor","character")){
-    data[,y] <- as.numeric(as.factor(data[,y]))
+    data[,y] <- as.numeric(as.factor(data[,y])) - 1
   }
 
   mappings <- list()
