@@ -26,10 +26,10 @@ max.scaler <- function(data, x, progress = TRUE){
   }
 
   for(i in 1:length(x)){
-    if(max(data[, x[i]]) == -1){
-      data[, x[i]] <- data[, x[i]] / max(data[, x[i]])
+    if(max(data[, x[i]], na.rm = TRUE) == -1){
+      data[, x[i]] <- data[, x[i]] / max(data[, x[i]], na.rm = TRUE)
     } else {
-      data[, x[i]] <- data[, x[i]] / (max(data[, x[i]]) + 1)
+      data[, x[i]] <- data[, x[i]] / (max(data[, x[i]], na.rm = TRUE) + 1)
     }
 
 
