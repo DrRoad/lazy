@@ -1,6 +1,6 @@
 #' Numeric feature transformations
 #'
-#' Applies different transformations to numeric features such as sqrt, log and boxcox transforms.
+#' Applies different transformations to numeric features such as sqrt and log transforms.
 #'
 #' @param data [Required | data.frame] Dataset containing numeric features
 #' @param x [Required | character] A vector of numeric feature names present in the dataset
@@ -12,8 +12,6 @@
 #' @author
 #' Xander Horn
 numeric.transformers <- function(data, x, progress = TRUE){
-
-  library(MASS)
 
   if(missing(data)){
     stop("No data provided to function in arg 'data'")
@@ -36,15 +34,8 @@ numeric.transformers <- function(data, x, progress = TRUE){
 
     if(class(temp[,x[i]]) %in% c("numeric", "integer")){
 
-      var <- temp[, x[i]]
-      box <- MASS::boxcox(var ~ 1, lambda = seq(-6,6,0.1), plotit = FALSE)
-      cox = data.frame(box$x, box$y)
-      cox <- cox[with(cox, order(-cox$box.y)),]
-      lambda <- cox[1, "box.x"]
-
       temp[, paste0("log.", names(data)[i])] <- log((temp[, 1] + 1))
       temp[, paste0("sqrt.", names(data)[i])] <- sqrt(temp[, 1])
-      temp[, paste0("boxcox.", names(data)[i])] <- (temp[, 1] ^ lambda - 1) / lambda
 
       if(progress == TRUE){
         setTxtProgressBar(pb, i)
