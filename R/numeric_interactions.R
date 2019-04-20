@@ -6,10 +6,13 @@
 #' @param x [Required | character] A vector of numeric feature names present in the dataset
 #' @param progress [Optional | logical] Display a progress bar
 #'
-#' @return
+#' @return Data frame or vector of interacted features
 #' @export
 #'
 #' @examples
+#' res <- numeric.interactions(iris, setdiff(names(iris), "Species"))
+#' @author
+#' Xander Horn
 numeric.interactions <- function(data, x, progress = TRUE){
 
   if(missing(data)){
