@@ -18,6 +18,10 @@ categorical.interactions <- function(data, x, n.interactions = 2,progress = TRUE
     stop("No data provided to function in arg 'data'")
   }
 
+  if(missing(x)){
+    stop("No categorical features specified in arg 'x'")
+  }
+
   if(n.interactions < 2){
     stop("Interactions require at least 2 levels")
   }
