@@ -46,7 +46,9 @@ map.kmeans.features <- function(data, x, clusters = 3, seed = NULL, progress = T
       clusters <- length(unique(temp[x]))
     }
 
-    clst <- kmeans(x = temp[, x[i]], centers = clusters)
+    toCluster <- temp[, x[i]] / max(temp[, x[i]] + 1, na.rm = TRUE)
+
+    clst <- kmeans(x = toCluster, centers = clusters)
     lookup <- as.data.frame(temp[, x[i]])
     names(lookup) <- x[i]
     lookup$cluster <- clst$cluster
@@ -58,6 +60,7 @@ map.kmeans.features <- function(data, x, clusters = 3, seed = NULL, progress = T
                     all.x = TRUE)
     lookup <- sqldf(paste0("select min(`",x[i],"`) as min, max(`",x[i],"`) as max, center from lookup group by center"))
     names(lookup) <- paste0(x[i],".",names(lookup))
+    lookup[, 3] <- lookup[, 3] * lookup[, 2]
     mappings[[i]] <- lookup
     if(progress == TRUE){
       setTxtProgressBar(pb, i)
