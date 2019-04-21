@@ -53,7 +53,11 @@ map.kmeans.features <- function(data, x, clusters = 3, sample.size = 0.3, seed =
       clusters <- length(unique(temp[x]))
     }
 
-    toCluster <- temp[, x[i]] / max(temp[, x[i]] + 1, na.rm = TRUE)
+    if(max(temp[, x[i]]) == 0){
+      toCluster <- temp[, x[i]] / max(temp[, x[i]] + 1, na.rm = TRUE)
+    } else {
+      toCluster <- temp[, x[i]] / max(temp[, x[i]], na.rm = TRUE)
+    }
 
     clst <- kmeans(x = toCluster, centers = clusters)
     lookup <- as.data.frame(temp[, x[i]])
