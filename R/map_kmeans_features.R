@@ -1,6 +1,6 @@
 #' Kmeans distance to center feature mappings
 #'
-#' Creates mapping tables for each numerical feature containing the center for each feature's min and max value.
+#' Creates mapping tables for each numerical feature containing the center for each feature's min and max value. These tables can then be applied using the function 'apply.kmeans.mappings' to calculate the distance to cluster center for each feature.
 #'
 #' @param data [Required | data.frame] Dataset containing categorical features
 #' @param x [Required | character] A vector of categorical feature names present in the dataset
@@ -11,7 +11,7 @@
 #' @return List of data frames containing mapping tables
 #' @export
 #' @examples
-#' res <- kmeans.features(data = iris, x = setdiff(names(iris), "Species"))
+#' res <- map.kmeans.features(data = iris, x = setdiff(names(iris), "Species"))
 #' @author
 #' Xander Horn
 map.kmeans.features <- function(data, x, clusters = 3, sample.size = 0.3, seed = NULL, progress = TRUE){
@@ -67,6 +67,9 @@ map.kmeans.features <- function(data, x, clusters = 3, sample.size = 0.3, seed =
                     all.x = TRUE)
     lookup <- sqldf(paste0("select min(`",x[i],"`) as min, max(`",x[i],"`) as max, center from lookup group by center"))
     lookup[, 3] <- lookup[, 3] * lookup[, 2]
+    lookup[2:nrow(lookup), 'min'] <- lookup[1:(nrow(lookup)-1), 'max']
+    lookup[1, 'min'] <- lookup[1, 'min'] * -100
+    lookup[nrow(lookup), 'max'] <- lookup[nrow(lookup), 'max'] * 100
     mappings[[i]] <- lookup
     if(progress == TRUE){
       setTxtProgressBar(pb, i)
