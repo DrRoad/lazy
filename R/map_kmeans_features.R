@@ -6,7 +6,7 @@
 #' @param x [Required | character] A vector of categorical feature names present in the dataset
 #' @param clusters [Optional | integer | Default 3] The number of clusters to create in each feature
 #' @param seed [Optional | integer| Default NULL] The random number seed for reproducable results
-#' @param sample.size [Optional | numeric] Percentage to down sample data for decreased computation time
+#' @param sample.size [Optional | numeric | Default 0.3] Percentage to down sample data for decreased computation time
 #' @param progress [Optional | logical] Display a progress bar
 #' @return List of data frames containing mapping tables
 #' @export
