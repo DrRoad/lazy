@@ -49,8 +49,8 @@ map.kmeans.features <- function(data, x, clusters = 3, sample.size = 0.3, seed =
   mappings <- list()
   for(i in 1:length(x)){
 
-    if(clusters > length(unique(temp[, x]))){
-      clusters <- length(unique(temp[x]))
+    if(clusters > length(unique(temp[, x[i]]))){
+      clusters <- length(unique(temp[, x[i]]))
     }
 
     if(max(temp[, x[i]]) == 0){
