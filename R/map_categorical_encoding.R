@@ -8,7 +8,7 @@
 #' @param max.levels [Optional | integer | Default 10] The maximum levels allowed for a categorical feature to create one hot encoded features
 #' @param min.percent [Optional | numeric | Default 0.025] The minimum proportion a categorical level is allowed to have before it is flagged as a low proportional level
 #' @param progress [Optional | logical] Display a progress bar
-#' @param seed [Optional | integer| Default 1991] The random number seed for reproducable results
+#' @param seed [Optional | integer| Default NULL] The random number seed for reproducable results
 #'
 #' @return List of data frames containing engineered mapping features
 #' @export
@@ -16,7 +16,7 @@
 #' res <- map.categorical.encoding(data = iris, x = "Species", y = "Sepal.Length")
 #' @author
 #' Xander Horn
-map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.percent = 0.025, seed = 1234,
+map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.percent = 0.025, seed = NULL,
                                      progress = TRUE){
 
   library(sqldf)
@@ -29,7 +29,10 @@ map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.per
     stop("No categorical features specified in arg 'x'")
   }
 
-  set.seed(seed)
+  if(is.null(seed) == FALSE){
+    set.seed(seed)
+  }
+
   data <- as.data.frame(data)
 
   if(class(data[,y]) %in% c("factor","character")){
