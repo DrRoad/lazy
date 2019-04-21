@@ -32,10 +32,10 @@ apply.kmeans.mappings <- function(data, mapping.list, progress = TRUE){
     temp <- mapping.list[[i]]
 
     if(sum(is.na(temp$min)) == 0 & sum(is.na(temp$max)) == 0){
-      qry <- paste0("select `",x[i],"`,  temp.center from data left join temp on data.`",x[i],"` > temp.min and data.`",x[i], "` <= temp.max")
+      qry <- paste0("select `",names(mapping.list)[i],"`,  temp.center from data left join temp on data.`",names(mapping.list)[i],"` > temp.min and data.`",names(mapping.list)[i], "` <= temp.max")
       temp <- sqldf(qry)
       temp$dist <- (temp[, 1] - temp[, 2])   / temp[, 1]
-      data[, paste0("kmeans.dist.",x[i])] <- ifelse(is.na(temp$dist) == TRUE, -1, temp$dist)
+      data[, paste0("kmeans.dist.",names(mapping.list)[i])] <- ifelse(is.na(temp$dist) == TRUE, -1, temp$dist)
 
       if(progress == TRUE){
         setTxtProgressBar(pb, i)
