@@ -1,6 +1,6 @@
 #' Kmeans distance to center feature mappings
 #'
-#' Creates mapping tables for each numerical feature containing the center for each feature's min and max value. These tables can then be applied using the function 'apply.kmeans.mappings' to calculate the distance to cluster center for each feature.
+#' Creates mapping tables for each numerical feature containing the center for each feature's min and max value. These tables can then be applied using the function 'apply.kmeans.mappings' to calculate the distance to cluster center for each feature. Each feature is scaled by converting it to a range between 0 and 1 before clustering.
 #'
 #' @param data [Required | data.frame] Dataset containing categorical features
 #' @param x [Required | character] A vector of categorical feature names present in the dataset
