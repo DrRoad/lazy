@@ -4,7 +4,7 @@
 #'
 #' @param data [Required | data.frame] Dataset containing categorical features
 #' @param x [Required | character] A vector of categorical feature names present in the dataset
-#' @param n.interactions [Optional | numeric] Number of features to interact, defaults to 2
+#' @param n.interactions [Optional | numeric | Default 2] Number of features to interact
 #' @param progress [Optional | logical] Display a progress bar
 #' @return Data frame or vector of interacted features
 #' @export

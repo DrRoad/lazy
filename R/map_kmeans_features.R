@@ -6,6 +6,7 @@
 #' @param x [Required | character] A vector of categorical feature names present in the dataset
 #' @param clusters [Optional | integer | Default 3] The number of clusters to create in each feature
 #' @param seed [Optional | integer| Default NULL] The random number seed for reproducable results
+#' @param sample.size [Optional | numeric] Percentage to down sample data for decreased computation time
 #' @param progress [Optional | logical] Display a progress bar
 #' @return List of data frames containing mapping tables
 #' @export
@@ -13,7 +14,7 @@
 #' res <- kmeans.features(data = iris, x = setdiff(names(iris), "Species"))
 #' @author
 #' Xander Horn
-map.kmeans.features <- function(data, x, clusters = 3, seed = NULL, progress = TRUE){
+map.kmeans.features <- function(data, x, clusters = 3, sample.size = 0.3, seed = NULL, progress = TRUE){
 
   library(sqldf)
 
@@ -29,6 +30,11 @@ map.kmeans.features <- function(data, x, clusters = 3, seed = NULL, progress = T
     stop("Clusters need to be 2 or more")
   }
 
+  if(sample.size > 1 | sample.size <= 0){
+    warning("sample.size restricted between 0 and 1, defaulting to 0.3")
+    sample.size <- 0.3
+  }
+
   if(is.null(seed) == FALSE){
     set.seed(seed)
   }
@@ -38,6 +44,7 @@ map.kmeans.features <- function(data, x, clusters = 3, seed = NULL, progress = T
   }
 
   temp <- as.data.frame(data[, x])
+  temp <- temp[sample(nrow(temp), sample.size * nrow(temp), replace = F), ]
 
   mappings <- list()
   for(i in 1:length(x)){
