@@ -66,7 +66,6 @@ map.kmeans.features <- function(data, x, clusters = 3, sample.size = 0.3, seed =
                     by.x = "cluster",
                     all.x = TRUE)
     lookup <- sqldf(paste0("select min(`",x[i],"`) as min, max(`",x[i],"`) as max, center from lookup group by center"))
-    names(lookup) <- paste0(x[i],".",names(lookup))
     lookup[, 3] <- lookup[, 3] * lookup[, 2]
     mappings[[i]] <- lookup
     if(progress == TRUE){
