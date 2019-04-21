@@ -23,6 +23,10 @@ numeric.interactions <- function(data, x, progress = TRUE){
     stop("No numeric features specified in arg 'x'")
   }
 
+  if(length(x) < 2){
+    stop("Require more than one feature to compute interactions")
+  }
+
   temp <- as.data.frame(data[, x])
 
   comb <- as.data.frame(t(combn(x, 2)), stringsAsFactors = FALSE)
