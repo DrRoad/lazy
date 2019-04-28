@@ -36,7 +36,7 @@ apply.mappings <- function(data, kmeans.mappings = NULL, categorial.mappings = N
         qry <- paste0("select `",names(kmeans.mappings)[i],"`,  temp.center from data left join temp on data.`",names(kmeans.mappings)[i],"` > temp.min and data.`",names(kmeans.mappings)[i], "` <= temp.max")
         temp <- sqldf(qry)
         temp$dist <- (temp[, 1] - temp[, 2])   / temp[, 1]
-        data[, paste0("kmeans.dist.",names(kmeans.mappings)[i])] <- ifelse(is.na(temp$dist) == TRUE, -1, temp$dist)
+        data[, paste0("lazy.dist.",names(kmeans.mappings)[i])] <- ifelse(is.na(temp$dist) == TRUE, -1, temp$dist)
       }
 
     }

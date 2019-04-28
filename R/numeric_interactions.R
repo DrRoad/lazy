@@ -37,10 +37,10 @@ numeric.interactions <- function(data, x, progress = TRUE){
 
   for(i in 1:length(comb)){
 
-    temp[,paste0("interaction.",paste0(comb[i,], collapse = "."),".sum")] <- temp[, comb[i, 1]] + temp[, comb[i, 2]]
-    temp[,paste0("interaction.",paste0(comb[i,], collapse = "."),".deduct")] <- temp[, comb[i, 1]] - temp[, comb[i, 2]]
-    temp[,paste0("interaction.",paste0(comb[i,], collapse = "."),".multiply")] <- temp[, comb[i, 1]] * temp[, comb[i, 2]]
-    temp[,paste0("interaction.",paste0(comb[i,], collapse = "."),".divide")] <- temp[, comb[i, 1]] / (temp[, comb[i, 2]] + 1)
+    temp[,paste0("lazy.interaction.",paste0(comb[i,], collapse = "."),".sum")] <- temp[, comb[i, 1]] + temp[, comb[i, 2]]
+    temp[,paste0("lazy.interaction.",paste0(comb[i,], collapse = "."),".deduct")] <- temp[, comb[i, 1]] - temp[, comb[i, 2]]
+    temp[,paste0("lazy.interaction.",paste0(comb[i,], collapse = "."),".multiply")] <- temp[, comb[i, 1]] * temp[, comb[i, 2]]
+    temp[,paste0("lazy.interaction.",paste0(comb[i,], collapse = "."),".divide")] <- temp[, comb[i, 1]] / (temp[, comb[i, 2]] + 1)
 
     if(progress == TRUE){
       setTxtProgressBar(pb, i)

@@ -34,8 +34,8 @@ numeric.transformers <- function(data, x, progress = TRUE){
 
     if(class(temp[,x[i]]) %in% c("numeric", "integer")){
 
-      temp[, paste0("log.", names(data)[i])] <- log((temp[, 1] + 1))
-      temp[, paste0("sqrt.", names(data)[i])] <- sqrt(temp[, 1])
+      temp[, paste0("lazy.log.", names(data)[i])] <- log((temp[, 1] + 1))
+      temp[, paste0("lazy.sqrt.", names(data)[i])] <- sqrt(temp[, 1])
 
       if(progress == TRUE){
         setTxtProgressBar(pb, i)

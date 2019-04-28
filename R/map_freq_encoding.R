@@ -32,7 +32,7 @@ map.freq.encoding <- function(data, x, progress = TRUE){
   mappings <- list()
   for(i in 1:length(x)){
     temp <- sqldf(paste0("select `", x[i], "`, count(`",x[i],"`) as count from data group by `",x[i],"`"))
-    names(temp)[2] <- paste0(x[i],".",names(temp)[2])
+    names(temp)[2] <- paste0("lazy.",x[i],".",names(temp)[2])
     mappings[[i]] <- temp
     if(progress == TRUE){
       setTxtProgressBar(pb, i)

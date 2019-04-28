@@ -76,7 +76,7 @@ map.categorical.encoding <- function(data, x, y = NULL, max.levels = 10, min.per
     }
 
     temp <- temp[,setdiff(names(temp), c("sum","count","noise.target","weighted.target"))]
-    names(temp) <- paste0(x[i],".",names(temp))
+    names(temp) <- paste0("lazy.",x[i],".",names(temp))
     names(temp)[1] <- x[i]
     mappings[[i]] <- temp
 
