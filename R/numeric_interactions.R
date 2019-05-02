@@ -35,7 +35,7 @@ numeric.interactions <- function(data, x, progress = TRUE){
     pb <- txtProgressBar(min = 0, max = length(comb), style = 3)
   }
 
-  for(i in 1:length(comb)){
+  for(i in 1:nrow(comb)){
 
     temp[,paste0("lazy.interaction.",paste0(comb[i,], collapse = "."),".sum")] <- temp[, comb[i, 1]] + temp[, comb[i, 2]]
     temp[,paste0("lazy.interaction.",paste0(comb[i,], collapse = "."),".deduct")] <- temp[, comb[i, 1]] - temp[, comb[i, 2]]
